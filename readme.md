@@ -1,5 +1,9 @@
 # Шаблон для проверки заданий
 
+## Подготовка
+Зайти Settings -> Action[General] -> Workflow permissions
+
+Выбрать "Read and write permissions" и нажать Save
 
 
 ## Авто-тесты

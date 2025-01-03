@@ -4,13 +4,16 @@ on:
   pull_request:
     paths:
       - 'src/code/**'
-    branches: [ "main" ]
+    branches: [ "master", "main" ]
 
   workflow_dispatch:
 
+permissions:
+  pull-requests: write
+
 jobs:
   auto_tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -41,6 +44,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Prepare environment
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           REPO_NAME=$(gh pr view ${{ github.event.pull_request.number }} --json headRepository --jq '.headRepository.name')
@@ -49,9 +54,6 @@ jobs:
           
           PULL_NUMBER=${{ github.event.pull_request.number }}
           echo "PULL_NUMBER=${PULL_NUMBER}" >> $GITHUB_ENV
-          
-          GITHUB_TOKEN=${{ github.token }}
-          echo "GITHUB_TOKEN=${GITHUB_TOKEN}" >> $GITHUB_ENV
         
           PR_URL=$(gh pr view ${{ github.event.pull_request.number }} --json url --jq '.url')
           REPO_URL=$(echo "$PR_URL" | sed 's|/pull/.*||')
@@ -74,13 +76,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
           poetry install
-      
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | bash
+          sleep 5
+          ollama run $MODEL_NAME
+
       - name: Run Grading System
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           poetry run python -m src.grading_system.run "$MODEL_NAME"
-
-#      - name: Install Ollama
-#        run: |
-#          curl -fsSL https://ollama.com/install.sh | bash
-#          sleep 5
-#          ollama run $MODEL_NAME

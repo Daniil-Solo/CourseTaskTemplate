@@ -1,2 +1,2 @@
-def example_add_two_numbers(a: int, b: int) -> float:
-    return 3
+def example_add_two_numbers(a: float, b: int) -> bool:
+    return 1 + b

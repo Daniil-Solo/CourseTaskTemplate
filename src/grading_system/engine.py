@@ -47,5 +47,5 @@ class OllamaEngine(BaseEngine):
             error_message = f"status code: {response.status_code}, response text: {response.text}"
             raise EngineError(message=error_message)
         response_data = response.json()
-        answer = response_data["response"]
+        answer = response_data["message"]["content"]
         return answer
