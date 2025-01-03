@@ -51,9 +51,6 @@ jobs:
           
           PULL_NUMBER=${{ github.event.pull_request.number }}
           echo "PULL_NUMBER=${PULL_NUMBER}" >> $GITHUB_ENV
-          
-          GITHUB_TOKEN=${{ github.token }}
-          echo "GITHUB_TOKEN=${GITHUB_TOKEN}" >> $GITHUB_ENV
         
           PR_URL=$(gh pr view ${{ github.event.pull_request.number }} --json url --jq '.url')
           REPO_URL=$(echo "$PR_URL" | sed 's|/pull/.*||')
@@ -84,5 +81,7 @@ jobs:
           ollama run $MODEL_NAME
 
       - name: Run Grading System
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           poetry run python -m src.grading_system.run "$MODEL_NAME"
