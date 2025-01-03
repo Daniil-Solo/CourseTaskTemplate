@@ -1,15 +1,10 @@
 # Шаблон для проверки заданий
 
-## Подготовка
-Зайти Settings -> Action[General] -> Workflow permissions
+## Описания задания
 
-Выбрать "Read and write permissions" и нажать Save
-
-
-## Авто-тесты
-
-### Использование переменных окружения
-
-- Можно указать в файле `.test.env`
-- Можно указать в секции `[tool.pytest_env]` в файле `pyproject.toml`
+Написать функцию для сложения двух чисел по следующей сигнатуре
+```Python
+def example_add_two_numbers(a, b):
+    ...
+```
 
