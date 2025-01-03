@@ -76,13 +76,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
           poetry install
-      
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | bash
+          sleep 5
+          ollama run $MODEL_NAME
+
       - name: Run Grading System
         run: |
           poetry run python -m src.grading_system.run "$MODEL_NAME"
-
-#      - name: Install Ollama
-#        run: |
-#          curl -fsSL https://ollama.com/install.sh | bash
-#          sleep 5
-#          ollama run $MODEL_NAME
