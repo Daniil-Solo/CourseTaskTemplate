@@ -40,7 +40,7 @@ jobs:
 
       - name: Run tests
         run: |
-          poetry run pytest 
+          poetry run pytest -v -s
 
   ollama_checking:
     runs-on: ubuntu-latest
