@@ -20,6 +20,12 @@ jobs:
 
       - name: Get Repository URL
         run: echo "$GITHUB_REPOSITORY"
+
+      - name: Get parent repository
+        run: |
+          response=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/$GITHUB_REPOSITORY)
+          echo "Parent repository: $(echo $response | jq -r .parent.full_name)"
       
       - name: Set up Python
         uses: actions/setup-python@v2
