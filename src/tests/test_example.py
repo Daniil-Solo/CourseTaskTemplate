@@ -16,6 +16,11 @@ def test_success_env():
     assert first_value == "first"
     assert second_value == "second"
 
+def test_github_env():
+    env_value = os.environ.get("GITHUB_REPOSITORY")
+    correct_value = "Daniil-Solo/CourseTaskTemplate/"
+    assert env_value == correct_value, f"expected {correct_value}, got {env_value}"
+
 
 async def test_success_async():
     await asyncio.sleep(0.5)
